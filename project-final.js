@@ -272,6 +272,7 @@ function modifInfoCan (){
     }
 }
 
+
 function supprimerCan(){
     console.log("=================================")
     console.log("")
@@ -290,6 +291,7 @@ function supprimerCan(){
         return true
     }
 }
+
 
 function rechercheCan(){
     console.log("=================================\nRechercher candidat par nom\n=================================")

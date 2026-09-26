@@ -328,7 +328,7 @@ function statistiqueElection (){
     let partis = [];
     let compteurs = [];
     for (let i = 0; i < candidats.length; i++) {
-        let index = partis.indexOf(candidats[i].partiPolitique);
+        let index = partis.findIndex((parti) => parti == candidats[i].partiPolitique);
         if (index == -1) {
             partis.push(candidats[i].partiPolitique);
             compteurs.push(1);

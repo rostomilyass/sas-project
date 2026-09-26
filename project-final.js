@@ -301,5 +301,44 @@ function rechercheCan(){
 }
 
 
-
+function statistiqueElection (){
+    console.log(`le nombre total de candidats est ${candidats.length}`)
+    let somme =0
+    for(let i=0;i<candidats.length;i++){
+        somme+=candidats[i].electeurs.length;
+    }
+    console.log(`le nombre total de votes exprimés dans toute l'élection est : ${somme}`)
+    console.log("")
+    for (let i=0; i<candidats.length-1 ; i++){
+            for(let j=0; j<candidats.length-1 ; j++){
+            if(candidats[j].electeurs.length<candidats[j+1].electeurs.length){
+                let temp = candidats[j+1].electeurs.length;
+                candidats[j+1].electeurs.length = candidats[j].electeurs.length
+                candidats[j].electeurs.length = temp 
+            }
+        }
+    }
+    console.log("Le Top 3 des candidats ayant le plus de votes : ")
+    for (let i=0;i<3; i++){
+            
+            console.log("cin: "+candidats[i].cin +" / nom: " +candidats[i].nom+ " / prénom: " +candidats[i].prenom+" / Parti politique: "+candidats[i].partiPolitique+" / Âge: " + candidats[i].age+" / Nombre de votes : "+candidats[i].electeurs.length)
+            console.log("") 
+    }
+    console.log("")
+    let partis = [];
+    let compteurs = [];
+    for (let i = 0; i < candidats.length; i++) {
+        let index = partis.indexOf(candidats[i].partiPolitique);
+        if (index == -1) {
+            partis.push(candidats[i].partiPolitique);
+            compteurs.push(1);
+            } else {
+                compteurs[index] = compteurs[index] + 1;
+    }
+  }
+    for (let i = 0; i < partis.length; i++) {
+        console.log(partis[i] + " : " + compteurs[i] + " candidat(s)");
+  }
+}
+    
     

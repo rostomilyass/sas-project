@@ -225,7 +225,8 @@ function voter(){
         return false
         }   
     }
-    
+
+
 function modifInfoCan (){
     console.log("=================================")
     console.log("")
@@ -270,6 +271,7 @@ function modifInfoCan (){
         }
     }
 }
+
 function supprimerCan(){
     console.log("=================================")
     console.log("")

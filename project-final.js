@@ -137,6 +137,7 @@ function ajouterPlusieurCandidat(){
     console.log("vous avez ajouter " + ajoutes+ " candidats")
 
 }
+
 function afficherListe (){
     console.log("=================================")
     console.log("")
@@ -193,6 +194,7 @@ function afficherListe (){
         }
     }
 }
+
 
 
 function voter(){

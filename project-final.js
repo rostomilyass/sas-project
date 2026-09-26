@@ -120,6 +120,8 @@ function ajouterCandidat (){
     console.log("candidat ajouté avec succes.")
     return true
 }
+
+
 function ajouterPlusieurCandidat(){
     let nombre = parseInt(prompt("Combien de canidats voulais vous ajouter? "))
     let ajoutes = 0;
@@ -191,6 +193,8 @@ function afficherListe (){
         }
     }
 }
+
+
 function voter(){
     console.log("=================================")
     console.log("")
@@ -280,6 +284,7 @@ function supprimerCan(){
         return true
     }
 }
+
 function rechercheCan(){
     console.log("=================================\nRechercher candidat par nom\n=================================")
     let nomrecherche = prompt("donnez moi le nom du candidat que vous recherché :")

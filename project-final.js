@@ -102,7 +102,7 @@ function ajouterCandidat (){
     }
     let nom = prompt("le nom du candidat : ")
     let prenom = prompt("le prenom du candidat : ")
-    let partipolitique = prompt("La partie politique du candidat : ")
+    let partiPolitique = prompt("La partie politique du candidat : ")
     let age = parseInt(prompt("l'age du candidat : "))
     if(age<18){
         console.log("le candidat n'est pas majeur")
@@ -112,7 +112,7 @@ function ajouterCandidat (){
         cin : cin,
         nom : nom,
         prenom : prenom,
-        partipolitique : partipolitique,
+        partiPolitique : partiPolitique,
         age : age,
         electeurs : []
     }
@@ -120,8 +120,6 @@ function ajouterCandidat (){
     console.log("candidat ajouté avec succes.")
     return true
 }
-
-
 function ajouterPlusieurCandidat(){
     let nombre = parseInt(prompt("Combien de canidats voulais vous ajouter? "))
     let ajoutes = 0;
@@ -137,7 +135,6 @@ function ajouterPlusieurCandidat(){
     console.log("vous avez ajouter " + ajoutes+ " candidats")
 
 }
-
 function afficherListe (){
     console.log("=================================")
     console.log("")
@@ -156,7 +153,7 @@ function afficherListe (){
         }
     }else if(choice==2){
         for (let i=0; i<candidats.length-1 ; i++){
-            for(let j=0; j<candidats.length-1 ; j++){
+            for(let j=0; j<candidats.length-1-i ; j++){
             if(candidats[j].electeurs.length<candidats[j+1].electeurs.length){
                 let temp = candidats[j+1].electeurs.length;
                 candidats[j+1].electeurs.length = candidats[j].electeurs.length
@@ -181,7 +178,7 @@ function afficherListe (){
                 }
             }
             if(position.length> 0){
-                console.log(`les candidats de la partie politique recherche ${partiPolitiqueRecherche} sont comme suit :`)
+                console.log(`les candidats de la partie politique recherché ${partiPolitiqueRecherche} sont comme suit :`)
                 for(let i=0;i<position.length;i++){
                     console.log("cin: "+candidats[position[i]].cin +" / nom: " +candidats[position[i]].nom+ " / prénom: " +candidats[position[i]].prenom+" / Âge: " + candidats[position[i]].age+" / Nombre de votes : "+candidats[position[i]].electeurs.length)
                     
@@ -194,8 +191,6 @@ function afficherListe (){
         }
     }
 }
-
-
 
 
 function voter(){
@@ -225,8 +220,6 @@ function voter(){
         return false
         }   
     }
-
-
 function modifInfoCan (){
     console.log("=================================")
     console.log("")
@@ -271,8 +264,6 @@ function modifInfoCan (){
         }
     }
 }
-
-
 function supprimerCan(){
     console.log("=================================")
     console.log("")
@@ -309,3 +300,6 @@ function rechercheCan(){
 
 }
 
+
+
+    

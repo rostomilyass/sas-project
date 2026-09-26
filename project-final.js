@@ -197,6 +197,7 @@ function afficherListe (){
 
 
 
+
 function voter(){
     console.log("=================================")
     console.log("")
@@ -224,6 +225,7 @@ function voter(){
         return false
         }   
     }
+    
 function modifInfoCan (){
     console.log("=================================")
     console.log("")

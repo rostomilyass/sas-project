@@ -74,6 +74,9 @@ while (true) {
         break;
     }
 }
+
+
+
 function trouverCandidat(cin) {
   let trouve = null;
   for (let i = 0; i < candidats.length; i++) {

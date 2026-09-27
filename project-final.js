@@ -120,6 +120,9 @@ function ajouterCandidat (){
     let nom = prompt("le nom du candidat : ")
     let prenom = prompt("le prenom du candidat : ")
     let partiPolitique = prompt("La partie politique du candidat : ")
+    if (partiPolitique == "") {
+        partiPolitique = "Independant";
+    }
     let age = parseInt(prompt("l'age du candidat : "))
     if(age<18){
         console.log(colorer("le candidat n'est pas majeur", couleurs.rouge))
@@ -133,6 +136,7 @@ function ajouterCandidat (){
         age : age,
         electeurs : []
     }
+    
     candidats.push(candidat);
     console.log(colorer("candidat ajouté avec succes.", couleurs.vert))
     return true
@@ -154,18 +158,17 @@ function ajouterPlusieurCandidat(){
 }
 function afficherListe (){
     console.log(colorer("=================================", couleurs.cyan))
-    console.log("")
     console.log(colorer("1.affichage normale", couleurs.jaune))
     console.log(colorer("2.Trier les candidats par nombre de votes en ordre decroisant", couleurs.jaune))
     console.log(colorer("3.Filtrer et afficher uniquement les candidats d'un parti politique spécifique", couleurs.jaune))
-    console.log("")
+    console.log(colorer("=================================", couleurs.cyan))
     let choice = parseInt(prompt("Faites votre choix  : "));
     if (choice!==2 && choice!==1 && choice!==3){
             console.log(colorer("invalide enter 1 ou 2 ou 3", couleurs.rouge))
             return false
     }else if (choice==1){
         for (let i=0;i< candidats.length; i++){
-            console.log(colorer("cin: "+candidats[i].cin +" / nom: " +candidats[i].nom+ " / prénom: " +candidats[i].prenom+" / Parti politique: "+candidats[i].partiPolitique+" / Âge: " + candidats[i].age+" / Nombre de votes : "+candidats[i].electeurs, couleurs.bleu))
+            console.log(colorer("cin: "+candidats[i].cin +" / nom: " +candidats[i].nom+ " / prénom: " +candidats[i].prenom+" / Parti politique: "+candidats[i].partiPolitique+" / Âge: " + candidats[i].age+" / les cin des electeurs : "+candidats[i].electeurs, couleurs.bleu))
             console.log("")
         }
     }else if(choice==2){
@@ -174,7 +177,7 @@ function afficherListe (){
             copie.push(candidats[i])
         }
         for (let i=0; i<copie.length ; i++){
-            for(let j=0; j<copie.length-1 ; j++){
+            for(let j=0; j<copie.length-i-1 ; j++){
             if(copie[j].electeurs.length<copie[j+1].electeurs.length){
                 let temp = copie[j+1];
                 copie[j+1]= copie[j]
@@ -328,6 +331,7 @@ function statistiqueElection (){
     for(let i=0;i<candidats.length;i++){
         somme+=candidats[i].electeurs.length;
     }
+    console.log("")
     console.log(colorer(`le nombre total de votes exprimés dans toute l'élection est : ${somme}`, couleurs.bleu))
     console.log("")
     for (let i=0; i<candidats.length-1 ; i++){
@@ -343,7 +347,7 @@ function statistiqueElection (){
     for (let i=0;i<3; i++){
             
             console.log(colorer("cin: "+candidats[i].cin +" / nom: " +candidats[i].nom+ " / prénom: " +candidats[i].prenom+" / Parti politique: "+candidats[i].partiPolitique+" / Âge: " + candidats[i].age+" / Nombre de votes : "+candidats[i].electeurs.length, couleurs.magenta))
-            console.log("") 
+            
     }
     console.log("")
     let partis = [];

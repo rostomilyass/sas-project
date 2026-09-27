@@ -1,4 +1,21 @@
 const prompt = require('prompt-sync')()
+
+
+const couleurs = {
+  reset: "\x1b[0m",
+  rouge: "\x1b[31m",
+  vert: "\x1b[32m",
+  jaune: "\x1b[33m",
+  bleu: "\x1b[34m",
+  magenta: "\x1b[35m",
+  cyan: "\x1b[36m",
+  gras: "\x1b[1m",
+};
+
+function colorer(texte, code) {
+  return code + texte + couleurs.reset;
+}
+
 const candidats = [
   { cin: "AB123456", nom: "Boushaba", prenom: "Soufiane", partiPolitique: "Independant", age: 40, electeurs: ["BK482019", "MA991102", "CD772211"] },
   { cin: "CD789012", nom: "El Amrani", prenom: "Yassine", partiPolitique: "RNI", age: 35, electeurs: ["AE654321", "BJ908172"] },
@@ -25,18 +42,18 @@ const candidats = [
 let choix = "";
 while (true) {
 
-  console.log("=================================");
-  console.log("         ELECTION MANAGER        ")
-  console.log("=================================");
-  console.log("1. Ajouter un nouveau candidat ");
-  console.log("2. Ajouter plusieurs candidats à la fois.")
-  console.log("3. Afficher la liste des candidats")
-  console.log("4. Voter pour un candidat ")
-  console.log("5. Modifier les informations d'un candidat")
-  console.log("6. Supprimer un candidat ")
-  console.log("7. Rechercher des candidats :")
-  console.log("8. Statistiques de l'élection :");
-  console.log("0. Quitter");
+  console.log(colorer("=================================", couleurs.cyan));
+  console.log(colorer("         ELECTION MANAGER        ", couleurs.cyan + couleurs.gras))
+  console.log(colorer("=================================", couleurs.cyan));
+  console.log(colorer("1. Ajouter un nouveau candidat ", couleurs.jaune));
+  console.log(colorer("2. Ajouter plusieurs candidats à la fois.", couleurs.jaune))
+  console.log(colorer("3. Afficher la liste des candidats", couleurs.jaune))
+  console.log(colorer("4. Voter pour un candidat ", couleurs.jaune))
+  console.log(colorer("5. Modifier les informations d'un candidat", couleurs.jaune))
+  console.log(colorer("6. Supprimer un candidat ", couleurs.jaune))
+  console.log(colorer("7. Rechercher des candidats :", couleurs.jaune))
+  console.log(colorer("8. Statistiques de l'élection :", couleurs.jaune));
+  console.log(colorer("0. Quitter", couleurs.jaune));
   choix = parseInt(prompt("Faites votre choix  : "));
 
   switch (choix) {
@@ -65,10 +82,10 @@ while (true) {
             statistiqueElection();
             break;      
         case 0:
-            console.log("Au revoir !");
+            console.log(colorer("Au revoir !", couleurs.vert));
             break;
         default:
-            console.log("Choix invalide, veuillez réessayer.");
+            console.log(colorer("Choix invalide, veuillez réessayer.", couleurs.rouge));
     }
     if (choix===0){
         break;
@@ -88,16 +105,16 @@ function trouverCandidat(cin) {
   return trouve;
 }
 function ajouterCandidat (){
-    console.log("=================================")
+    console.log(colorer("=================================", couleurs.cyan))
     console.log("")
     let cinMin = prompt("le cin de ce candidat (les lettres en majuscules): ")
     let cin = cinMin.toUpperCase()
     if (cin == ""){
-        console.log("Le cin est obligatoire")
+        console.log(colorer("Le cin est obligatoire", couleurs.rouge))
         return false;
     }
     if(trouverCandidat(cin)!==null){
-        console.log("le cin exite deja")
+        console.log(colorer("le cin exite deja", couleurs.rouge))
         return false;
     }
     let nom = prompt("le nom du candidat : ")
@@ -105,7 +122,7 @@ function ajouterCandidat (){
     let partiPolitique = prompt("La partie politique du candidat : ")
     let age = parseInt(prompt("l'age du candidat : "))
     if(age<18){
-        console.log("le candidat n'est pas majeur")
+        console.log(colorer("le candidat n'est pas majeur", couleurs.rouge))
         return false
     }
     let candidat ={
@@ -117,14 +134,14 @@ function ajouterCandidat (){
         electeurs : []
     }
     candidats.push(candidat);
-    console.log("candidat ajouté avec succes.")
+    console.log(colorer("candidat ajouté avec succes.", couleurs.vert))
     return true
 }
 function ajouterPlusieurCandidat(){
     let nombre = parseInt(prompt("Combien de canidats voulais vous ajouter? "))
     let ajoutes = 0;
     for (let i=0;i<nombre;i++){
-        console.log(`candidat ${i+1} :`)
+        console.log(colorer(`candidat ${i+1} :`, couleurs.jaune))
         let resultat = ajouterCandidat(); 
     
         if (resultat === true){
@@ -132,43 +149,47 @@ function ajouterPlusieurCandidat(){
         } 
         
     }
-    console.log("vous avez ajouter " + ajoutes+ " candidats")
+    console.log(colorer("vous avez ajouter " + ajoutes+ " candidats", couleurs.vert))
 
 }
 function afficherListe (){
-    console.log("=================================")
+    console.log(colorer("=================================", couleurs.cyan))
     console.log("")
-    console.log("1.affichage normale")
-    console.log("2.Trier les candidats par nombre de votes en ordre decroisant")
-    console.log("3.Filtrer et afficher uniquement les candidats d'un parti politique spécifique")
+    console.log(colorer("1.affichage normale", couleurs.jaune))
+    console.log(colorer("2.Trier les candidats par nombre de votes en ordre decroisant", couleurs.jaune))
+    console.log(colorer("3.Filtrer et afficher uniquement les candidats d'un parti politique spécifique", couleurs.jaune))
     console.log("")
     let choice = parseInt(prompt("Faites votre choix  : "));
     if (choice!==2 && choice!==1 && choice!==3){
-            console.log("invalide enter 1 ou 2 ou 3")
+            console.log(colorer("invalide enter 1 ou 2 ou 3", couleurs.rouge))
             return false
     }else if (choice==1){
         for (let i=0;i< candidats.length; i++){
-            console.log("cin: "+candidats[i].cin +" / nom: " +candidats[i].nom+ " / prénom: " +candidats[i].prenom+" / Parti politique: "+candidats[i].partiPolitique+" / Âge: " + candidats[i].age+" / Nombre de votes : "+candidats[i].electeurs)
+            console.log(colorer("cin: "+candidats[i].cin +" / nom: " +candidats[i].nom+ " / prénom: " +candidats[i].prenom+" / Parti politique: "+candidats[i].partiPolitique+" / Âge: " + candidats[i].age+" / Nombre de votes : "+candidats[i].electeurs, couleurs.bleu))
             console.log("")
         }
     }else if(choice==2){
-        for (let i=0; i<candidats.length-1 ; i++){
-            for(let j=0; j<candidats.length-1-i ; j++){
-            if(candidats[j].electeurs.length<candidats[j+1].electeurs.length){
-                let temp = candidats[j+1].electeurs.length;
-                candidats[j+1].electeurs.length = candidats[j].electeurs.length
-                candidats[j].electeurs.length = temp 
+        let copie = []
+        for(let i=0;i<candidats.length;i++){
+            copie.push(candidats[i])
+        }
+        for (let i=0; i<copie.length ; i++){
+            for(let j=0; j<copie.length-1 ; j++){
+            if(copie[j].electeurs.length<copie[j+1].electeurs.length){
+                let temp = copie[j+1];
+                copie[j+1]= copie[j]
+                copie[j] = temp 
             }
         }
     }
-    for (let i=0;i< candidats.length; i++){
-            console.log("cin: "+candidats[i].cin +" / nom: " +candidats[i].nom+ " / prénom: " +candidats[i].prenom+" / Parti politique: "+candidats[i].partiPolitique+" / Âge: " + candidats[i].age+" / Nombre de votes : "+candidats[i].electeurs.length)
+    for (let i=0;i< copie.length; i++){
+            console.log(colorer("cin: "+copie[i].cin +" / nom: " +copie[i].nom+ " / prénom: " +copie[i].prenom+" / Parti politique: "+copie[i].partiPolitique+" / Âge: " + copie[i].age+" / Nombre de votes : "+copie[i].electeurs.length, couleurs.bleu))
             console.log("") 
         }  
     }else{
-        let partiPolitiqueRecherche = prompt(console.log("Ecris moi la partie politique que vous desirez afficher leur candidat  ")) 
+        let partiPolitiqueRecherche = prompt(console.log(colorer("Ecris moi la partie politique que vous desirez afficher leur candidat  ", couleurs.jaune))) 
         if (partiPolitiqueRecherche=="") {
-            console.log("vous avez rien ecrit")
+            console.log(colorer("vous avez rien ecrit", couleurs.rouge))
             return false
         }else {
             let position = []
@@ -178,14 +199,14 @@ function afficherListe (){
                 }
             }
             if(position.length> 0){
-                console.log(`les candidats de la partie politique recherché ${partiPolitiqueRecherche} sont comme suit :`)
+                console.log(colorer(`les candidats de la partie politique recherché ${partiPolitiqueRecherche} sont comme suit :`, couleurs.magenta))
                 for(let i=0;i<position.length;i++){
-                    console.log("cin: "+candidats[position[i]].cin +" / nom: " +candidats[position[i]].nom+ " / prénom: " +candidats[position[i]].prenom+" / Âge: " + candidats[position[i]].age+" / Nombre de votes : "+candidats[position[i]].electeurs.length)
+                    console.log(colorer("cin: "+candidats[position[i]].cin +" / nom: " +candidats[position[i]].nom+ " / prénom: " +candidats[position[i]].prenom+" / Âge: " + candidats[position[i]].age+" / Nombre de votes : "+candidats[position[i]].electeurs.length, couleurs.bleu))
                     
                 }
                 return true
             }else{
-                console.log("la partie politique que vous rechercher n'est pas trouvé")
+                console.log(colorer("la partie politique que vous rechercher n'est pas trouvé", couleurs.rouge))
                 return false
             }
         }
@@ -194,7 +215,7 @@ function afficherListe (){
 
 
 function voter(){
-    console.log("=================================")
+    console.log(colorer("=================================", couleurs.cyan))
     console.log("")
     let cinElecteurMin = prompt(" saisir votre propre CIN : ")
     let cinElecteur = cinElecteurMin.toUpperCase()
@@ -205,7 +226,7 @@ function voter(){
         }
     }
     if(position2.length>0){
-        console.log("Vous avez déjà voté et vous n'avez pas le droit de modifier votre vote ni de voter à nouveau")
+        console.log(colorer("Vous avez déjà voté et vous n'avez pas le droit de modifier votre vote ni de voter à nouveau", couleurs.rouge))
         return false
     }else {
         let candidatVotedCinMin = prompt("donnez moi le cin du candidat que vous voulais voter sur lui : ")
@@ -213,38 +234,38 @@ function voter(){
         let resultIndex = candidats.findIndex(candidat => candidat.cin === candidatVotedCin);
         if(resultIndex>-1){
             candidats[resultIndex].electeurs.push(cinElecteur)
-            console.log("vous avez voter avec succes!")
+            console.log(colorer("vous avez voter avec succes!", couleurs.vert))
             return true   
         }
-        console.log("votre candidat n'existe pas")
+        console.log(colorer("votre candidat n'existe pas", couleurs.rouge))
         return false
         }   
     }
 function modifInfoCan (){
-    console.log("=================================")
+    console.log(colorer("=================================", couleurs.cyan))
     console.log("")
-    console.log("1.Modifier le parti politique d'un candidat.")
-    console.log("2.Modifier l'âge d'un candidat.")
+    console.log(colorer("1.Modifier le parti politique d'un candidat.", couleurs.jaune))
+    console.log(colorer("2.Modifier l'âge d'un candidat.", couleurs.jaune))
     console.log("")
-    console.log("=================================")
+    console.log(colorer("=================================", couleurs.cyan))
     let choice$ = parseInt(prompt("Faites votre choix  : "));
     
     if (choice$!==2 && choice$!==1 ){
-            console.log("invalide enter 1 ou 2 ou 3")
+            console.log(colorer("invalide enter 1 ou 2 ou 3", couleurs.rouge))
             return false
         }else if (choice$==1){
             let cinCandidatPartyModifyMin = prompt("donnez le cin que vous voulais modifier sa partie politique ") 
             let cinCandidatPartyModify = cinCandidatPartyModifyMin.toUpperCase()
             resultat = trouverCandidat(cinCandidatPartyModify)
             if (resultat==null){
-                console.log("ce candidat n'existe pas dans notre liste")
+                console.log(colorer("ce candidat n'existe pas dans notre liste", couleurs.rouge))
                 return false
             }else{
                 
                 let partiPolitiqueModified = prompt("donnez la nouvelle partie politique ")
                 const index = candidats.findIndex(c => c.cin === cinCandidatPartyModify);
                 candidats[index].partiPolitique = partiPolitiqueModified;
-                console.log("la partie politique est changé avec succes")
+                console.log(colorer("la partie politique est changé avec succes", couleurs.vert))
                 return true
         }
         }else{
@@ -252,62 +273,62 @@ function modifInfoCan (){
             let cinAgePartyModify = cinAgeModifyMin.toUpperCase()
             resultat = trouverCandidat(cinAgePartyModify)
             if (resultat==null){
-                console.log("ce candidat n'existe pas dans notre liste")
+                console.log(colorer("ce candidat n'existe pas dans notre liste", couleurs.rouge))
                 return false
             }else{
                 let ageModified = prompt("donnez le nouveau age ")
 
                 const index = candidats.findIndex(c => c.cin === cinAgePartyModify);
                 candidats[index].age = ageModified
-                console.log("l'age est changé avec succes")
+                console.log(colorer("l'age est changé avec succes", couleurs.vert))
                 return true
         }
     }
 }
 function supprimerCan(){
-    console.log("=================================")
+    console.log(colorer("=================================", couleurs.cyan))
     console.log("")
-    console.log("SUPRRESSION D'UN CANDIDAT")
+    console.log(colorer("SUPRRESSION D'UN CANDIDAT", couleurs.cyan + couleurs.gras))
     console.log("")
-    console.log("=================================")
+    console.log(colorer("=================================", couleurs.cyan))
     let cinDeletedMin = prompt("donnez moi le cin du candidat que vous souhaitez supprimer : ")
     let cinDeleted = cinDeletedMin.toUpperCase();
     resultat = trouverCandidat(cinDeleted)
     if (resultat==null){
-        console.log("le candidat que vous rechercher n'existe pas dans notre liste")
+        console.log(colorer("le candidat que vous rechercher n'existe pas dans notre liste", couleurs.rouge))
         return false
     }else{
         candidats.splice(index, 1);
-        console.log("candidat supprrimé avec succes.")
+        console.log(colorer("candidat supprrimé avec succes.", couleurs.vert))
         return true
     }
 }
 
 
 function rechercheCan(){
-    console.log("=================================\nRechercher candidat par nom\n=================================")
+    console.log(colorer("=================================\nRechercher candidat par nom\n=================================", couleurs.cyan))
     let nomrecherche = prompt("donnez moi le nom du candidat que vous recherché :")
     let trouverName = false
     for (let i of candidats) {
         if (i.nom === nomrecherche) {
          trouverName=true    
-            console.log(`les donnes du candidat que vous rechercher :\ncin : ${i.cin}\nnom : ${i.nom}\nprenom : ${i.prenom}\npartie politique : ${i.partiPolitique}\nage : ${i.age}\nelecteurs : ${i.electeurs}\n`)
+            console.log(colorer(`les donnes du candidat que vous rechercher :\ncin : ${i.cin}\nnom : ${i.nom}\nprenom : ${i.prenom}\npartie politique : ${i.partiPolitique}\nage : ${i.age}\nelecteurs : ${i.electeurs}\n`, couleurs.bleu))
         } 
     }
     
     if (!trouverName){
-        console.log("le nom n'est pas trouvable")}
+        console.log(colorer("le nom n'est pas trouvable", couleurs.rouge))}
 
 }
 
 
 function statistiqueElection (){
-    console.log(`le nombre total de candidats est ${candidats.length}`)
+    console.log(colorer(`le nombre total de candidats est ${candidats.length}`, couleurs.bleu))
     let somme =0
     for(let i=0;i<candidats.length;i++){
         somme+=candidats[i].electeurs.length;
     }
-    console.log(`le nombre total de votes exprimés dans toute l'élection est : ${somme}`)
+    console.log(colorer(`le nombre total de votes exprimés dans toute l'élection est : ${somme}`, couleurs.bleu))
     console.log("")
     for (let i=0; i<candidats.length-1 ; i++){
             for(let j=0; j<candidats.length-1 ; j++){
@@ -318,10 +339,10 @@ function statistiqueElection (){
             }
         }
     }
-    console.log("Le Top 3 des candidats ayant le plus de votes : ")
+    console.log(colorer("Le Top 3 des candidats ayant le plus de votes : ", couleurs.cyan + couleurs.gras))
     for (let i=0;i<3; i++){
             
-            console.log("cin: "+candidats[i].cin +" / nom: " +candidats[i].nom+ " / prénom: " +candidats[i].prenom+" / Parti politique: "+candidats[i].partiPolitique+" / Âge: " + candidats[i].age+" / Nombre de votes : "+candidats[i].electeurs.length)
+            console.log(colorer("cin: "+candidats[i].cin +" / nom: " +candidats[i].nom+ " / prénom: " +candidats[i].prenom+" / Parti politique: "+candidats[i].partiPolitique+" / Âge: " + candidats[i].age+" / Nombre de votes : "+candidats[i].electeurs.length, couleurs.magenta))
             console.log("") 
     }
     console.log("")
@@ -337,8 +358,7 @@ function statistiqueElection (){
     }
   }
     for (let i = 0; i < partis.length; i++) {
-        console.log(partis[i] + " : " + compteurs[i] + " candidat(s)");
+        console.log(colorer(partis[i] + " : " + compteurs[i] + " candidat(s)", couleurs.bleu));
   }
 }
-    
     

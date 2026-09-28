@@ -1,6 +1,5 @@
 const prompt = require('prompt-sync')()
 
-
 const couleurs = {
   reset: "\x1b[0m",
   rouge: "\x1b[31m",
@@ -91,8 +90,6 @@ while (true) {
         break;
     }
 }
-
-
 
 function trouverCandidat(cin) {
   let trouve = null;
@@ -215,8 +212,6 @@ function afficherListe (){
         }
     }
 }
-
-
 function voter(){
     console.log(colorer("=================================", couleurs.cyan))
     console.log("")
@@ -224,7 +219,7 @@ function voter(){
     let cinElecteur = cinElecteurMin.toUpperCase()
     let position2=[]
     for (let i=0;i<candidats.length;i++){
-        if (candidats[i].electeurs===cinElecteur){
+        if (candidats[i].electeurs.includes(cinElecteur)){
             position2.push(i)
         }
     }
@@ -242,8 +237,8 @@ function voter(){
         }
         console.log(colorer("votre candidat n'existe pas", couleurs.rouge))
         return false
-        }   
-    }
+    }   
+}
 function modifInfoCan (){
     console.log(colorer("=================================", couleurs.cyan))
     console.log("")
@@ -306,8 +301,6 @@ function supprimerCan(){
         return true
     }
 }
-
-
 function rechercheCan(){
     console.log(colorer("=================================\nRechercher candidat par nom\n=================================", couleurs.cyan))
     let nomrecherche = prompt("donnez moi le nom du candidat que vous recherché :")
@@ -323,8 +316,6 @@ function rechercheCan(){
         console.log(colorer("le nom n'est pas trouvable", couleurs.rouge))}
 
 }
-
-
 function statistiqueElection (){
     console.log(colorer(`le nombre total de candidats est ${candidats.length}`, couleurs.bleu))
     let somme =0
@@ -334,35 +325,39 @@ function statistiqueElection (){
     console.log("")
     console.log(colorer(`le nombre total de votes exprimés dans toute l'élection est : ${somme}`, couleurs.bleu))
     console.log("")
-    for (let i=0; i<candidats.length-1 ; i++){
-            for(let j=0; j<candidats.length-1 ; j++){
-            if(candidats[j].electeurs.length<candidats[j+1].electeurs.length){
-                let temp = candidats[j+1].electeurs.length;
-                candidats[j+1].electeurs.length = candidats[j].electeurs.length
-                candidats[j].electeurs.length = temp 
+    let copie = []
+        for(let i=0;i<candidats.length;i++){
+            copie.push(candidats[i])
+        }
+        for (let i=0; i<copie.length ; i++){
+            for(let j=0; j<copie.length-i-1 ; j++){
+            if(copie[j].electeurs.length<copie[j+1].electeurs.length){
+                let temp = copie[j+1];
+                copie[j+1]= copie[j]
+                copie[j] = temp 
             }
         }
     }
     console.log(colorer("Le Top 3 des candidats ayant le plus de votes : ", couleurs.cyan + couleurs.gras))
-    for (let i=0;i<3; i++){
-            
-            console.log(colorer("cin: "+candidats[i].cin +" / nom: " +candidats[i].nom+ " / prénom: " +candidats[i].prenom+" / Parti politique: "+candidats[i].partiPolitique+" / Âge: " + candidats[i].age+" / Nombre de votes : "+candidats[i].electeurs.length, couleurs.magenta))
-            
-    }
+    for (let i=0;i< 3; i++){
+            console.log(colorer("cin: "+copie[i].cin +" / nom: " +copie[i].nom+ " / prénom: " +copie[i].prenom+" / Parti politique: "+copie[i].partiPolitique+" / Âge: " + copie[i].age+" / Nombre de votes : "+copie[i].electeurs.length, couleurs.bleu))
+            console.log("") 
+        }        
+    
     console.log("")
-    let partis = [];
-    let compteurs = [];
-    for (let i = 0; i < candidats.length; i++) {
-        let index = partis.findIndex((parti) => parti == candidats[i].partiPolitique);
-        if (index == -1) {
-            partis.push(candidats[i].partiPolitique);
-            compteurs.push(1);
-            } else {
-                compteurs[index] = compteurs[index] + 1;
+    let partipolitique = {};
+    for (let i = 0 ; i < candidats.length ; i++){
+        let parti = candidats[i].partiPolitique;
+        if (partipolitique[parti] === undefined){
+         partipolitique[parti] = 1;
+        }
+        else {
+            partipolitique[parti]++;
+        }
     }
-  }
-    for (let i = 0; i < partis.length; i++) {
-        console.log(colorer(partis[i] + " : " + compteurs[i] + " candidat(s)", couleurs.bleu));
-  }
+    console.log("le nombre de candidats par parti politique : ")
+    for (parti in partipolitique){
+        console.log(`${parti} : ${partipolitique[parti]}`)
+    }
 }
     
